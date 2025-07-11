@@ -24,6 +24,17 @@ class _HiiState extends State<Hii> {
           Text("Hii"),
           Text("Hii"),
           Text("Hii"),
+          Form(
+              child: Column(
+                children: [
+                  TextFormField(),
+                  TextFormField(),
+                  TextFormField(),
+                  TextFormField(),
+                  TextFormField(),
+                ],
+              )
+          )
         ],
       ),
     );
