@@ -12,6 +12,11 @@ class _HiiState extends State<Hii> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Hii"),
+        centerTitle: true,
+        backgroundColor: Colors.red,
+      ),
       body: Column(
         children: [
           Text("Hii"),
