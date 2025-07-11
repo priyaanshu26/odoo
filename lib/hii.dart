@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class Hii extends StatefulWidget {
   const Hii({super.key});
 
@@ -24,6 +23,8 @@ class _HiiState extends State<Hii> {
           Text("Hii"),
           Text("Hii"),
           Text("Hii"),
+          TextButton(onPressed: (){}, child: Text("Hii")),
+          ElevatedButton(onPressed: (){}, child: Text("Hello")),
         ],
       ),
     );
