@@ -25,8 +25,8 @@ const String KEY_CONTENT = "content";
 const String KEY_QUE = "que";
 
 const String KEY_AUTHOR = "author";
-const String KEY_UPVOTES = "upVotes";
-const String KEY_DOWNVOTES = "downVotes";
+const String KEY_UP_VOTES = "upVotes";
+const String KEY_DOWN_VOTES = "downVotes";
 
 
 const String KEY_CREATED_AT = "createdAt";
