@@ -14,11 +14,11 @@ class AnsModule {
   get author => _author;
   set author(value) => _author = value;
   List? _upVotes;
-  get upVote => _upVotes;
-  set upVote(value) => _upVotes = value;
+  get upVotes => _upVotes;
+  set upVotes(value) => _upVotes = value;
   List? _downVotes;
-  get downVote => _downVotes;
-  set downVote(value) => _downVotes = value;
+  get downVotes => _downVotes;
+  set downVotes(value) => _downVotes = value;
   DateTime? _createdAt;
   get createdAt => _createdAt;
   set createdAt(value) => _createdAt = value;
