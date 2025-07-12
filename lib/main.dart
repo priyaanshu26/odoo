@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:odoo/utils/import_export.dart';
 
-void main() {
+void main() async {
+  await FirebaseService.init();
   runApp(const MyApp());
 }
 
