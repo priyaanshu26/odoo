@@ -52,7 +52,7 @@ class AnsController extends GetxController{
   List<AnsModule> sortAnswers(List<AnsModule> list) {
     switch (selectedFilter.value) {
       case "Upvoted":
-        list.sort((a, b) => (b.upVotes - b.downVotes).compareTo(a.upVotes - a.downVotes));
+        list.sort((a, b) => (b.upVotes.length - b.downVotes.length).compareTo(a.upVotes.length - a.downVotes.length));
         break;
       case "Newest":
         list.sort((a, b) => (b.createdAt ?? DateTime.now()).compareTo(a.createdAt ?? DateTime.now()));

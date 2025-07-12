@@ -158,7 +158,7 @@ class QuestionCard extends StatelessWidget {
 
                       },),
                       Text(
-                        (answer.upVotes - answer.downVotes).toString()  ,
+                        (answer.upVotes.length - answer.downVotes.length).toString()  ,
                         style: const TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       IconButton(icon: Icon(Icons.keyboard_arrow_down, color: Colors.white),onPressed: () {

@@ -5,8 +5,9 @@ import 'package:odoo/screens/add_que/widgets/tag_input.dart';
 import 'add_controller.dart';
 
 class AskQuestionScreen extends StatelessWidget {
-  final AskQuestionController controller = Get.find();
+  final AskQuestionController controller = Get.put(AskQuestionController());
   final String currentUserId = "user123"; // Replace with real user ID from auth
+
 
   AskQuestionScreen({Key? key}) : super(key: key);
 
