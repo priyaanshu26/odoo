@@ -1,3 +1,4 @@
+import 'package:odoo/screens/add_que/add_view.dart';
 import 'package:odoo/utils/import_export.dart';
 
 void main() async {
@@ -13,10 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'StackIt',
-      home: Scaffold(
-        appBar: AppBar(title: Text("StackIt - Seeding DB")),
-        body: Center(child: Text("Seeding Firestore.....")),
-      ),
+      home: AskQuestionScreen(),
     );
   }
 }
