@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:odoo/screens/add_que/add_view.dart';
+import 'package:odoo/screens/loginScreen/loginScreen.dart';
+import 'package:odoo/screens/view_que/view_question_page.dart';
 
 import '../../controller/ans_controller.dart';
 import '../../module/ans_module.dart';
 
-void main() async {
-  // await FirebaseService.init();
-  runApp(TempRun());
-}
 
 class TempRun extends StatelessWidget {
   const TempRun({super.key});
@@ -38,7 +37,9 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+            },
             child: const Text('Login', style: TextStyle(color: Colors.white)),
           ),
         ],
@@ -94,7 +95,9 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 12),
 
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AskQuestionScreen()));
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blueAccent,
               ),
@@ -134,72 +137,77 @@ class QuestionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.grey[900],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Votes and Title Row
-            Row(
-              children: [
-                Column(
-                  children: [
-                    IconButton(icon: Icon(Icons.keyboard_arrow_up, color: Colors.white),onPressed: () {
+    return GestureDetector(
+      onTap: (){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ViewQuestionPage()));
+      },
+      child: Card(
+        color: Colors.grey[900],
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Votes and Title Row
+              Row(
+                children: [
+                  Column(
+                    children: [
+                      IconButton(icon: Icon(Icons.keyboard_arrow_up, color: Colors.white),onPressed: () {
 
-                    },),
-                    Text(
-                      (answer.upVotes - answer.downVotes).toString()  ,
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                    IconButton(icon: Icon(Icons.keyboard_arrow_down, color: Colors.white),onPressed: () {
+                      },),
+                      Text(
+                        (answer.upVotes - answer.downVotes).toString()  ,
+                        style: const TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      IconButton(icon: Icon(Icons.keyboard_arrow_down, color: Colors.white),onPressed: () {
 
-                    },),
-                  ],
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    answer.que,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+                      },),
+                    ],
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      answer.que,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8.0,
-              children: const [
-                Chip(
-                  label: Text("Sample", style: TextStyle(color: Colors.white)),
-                  backgroundColor: Colors.blueGrey,
-                ),
-                Chip(
-                  label: Text("Tags", style: TextStyle(color: Colors.white)),
-                  backgroundColor: Colors.blueGrey,
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              answer.content,
-              style: const TextStyle(color: Colors.white70, fontSize: 14),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              answer.author,
-              style: const TextStyle(
-                color: Colors.white54,
-                fontSize: 12,
-                fontStyle: FontStyle.italic,
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8.0,
+                children: const [
+                  Chip(
+                    label: Text("Sample", style: TextStyle(color: Colors.white)),
+                    backgroundColor: Colors.blueGrey,
+                  ),
+                  Chip(
+                    label: Text("Tags", style: TextStyle(color: Colors.white)),
+                    backgroundColor: Colors.blueGrey,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                answer.content,
+                style: const TextStyle(color: Colors.white70, fontSize: 14),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                answer.author,
+                style: const TextStyle(
+                  color: Colors.white54,
+                  fontSize: 12,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
