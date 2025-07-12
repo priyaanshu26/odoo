@@ -22,9 +22,12 @@ class QueModule {
   String? _acceptedAnswer;
   get acceptedAnswer => _acceptedAnswer;
   set acceptedAnswer(value) => _acceptedAnswer = value;
-  List? _votes;
-  get votes => _votes;
-  set votes(value) => _votes = value;
+  List? _upVotes;
+  get upVote => _upVotes;
+  set upVote(value) => _upVotes = value;
+  List? _downVotes;
+  get downVote => _downVotes;
+  set downVote(value) => _downVotes = value;
   DateTime? _createdAt;
   get createdAt => _createdAt;
   set createdAt(value) => _createdAt = value;
@@ -32,8 +35,19 @@ class QueModule {
   get updatedAt => _updatedAt;
   set updatedAt(value) => _updatedAt = value;
 
-
-  QueModule(int id, String title, String description, List tags, String author, List answers, String acceptedAnswer, List votes, DateTime createdAt, DateTime updatedAt,){
+  QueModule({
+    int? id,
+    String? title,
+    String? description,
+    List? tags,
+    String? author,
+    List? answers,
+    String? acceptedAnswer,
+    List? upVotes,
+    List? downVotes,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
     this._id = id;
     this._title = title;
     this._description = description;
@@ -41,23 +55,25 @@ class QueModule {
     this._author = author;
     this._answers = answers;
     this._acceptedAnswer = acceptedAnswer;
-    this._votes = votes;
+    this._upVotes = upVote;
+    this._downVotes = downVote;
     this._createdAt = createdAt;
     this._updatedAt = updatedAt;
   }
 
   static QueModule fromJson(Map<String, dynamic> json) {
     return QueModule(
-      json[KEY_ID],
-      json[KEY_TITLE],
-      json[KEY_DESCRIPTION],
-      json[KEY_TAGS],
-      json[KEY_AUTHOR],
-      json[KEY_ANSWERS],
-      json[KEY_ACCEPTED_ANSWER],
-      json[KEY_VOTES],
-      json[KEY_CREATED_AT],
-      json[KEY_UPDATED_AT],
+      id: json[KEY_ID],
+      title: json[KEY_TITLE],
+      description: json[KEY_DESCRIPTION],
+      tags: json[KEY_TAGS],
+      author: json[KEY_AUTHOR],
+      answers: json[KEY_ANSWERS],
+      acceptedAnswer: json[KEY_ACCEPTED_ANSWER],
+      upVotes: json[KEY_UP_VOTES],
+      downVotes: json[KEY_DOWN_VOTES],
+      createdAt: json[KEY_CREATED_AT],
+      updatedAt: json[KEY_UPDATED_AT],
     );
   }
 
@@ -70,10 +86,10 @@ class QueModule {
       KEY_AUTHOR: _author,
       KEY_ANSWERS: _answers,
       KEY_ACCEPTED_ANSWER: _acceptedAnswer,
-      KEY_VOTES: _votes,
+      KEY_UP_VOTES: _upVotes,
+      KEY_DOWN_VOTES: _downVotes,
       KEY_CREATED_AT: _createdAt,
       KEY_UPDATED_AT: _updatedAt,
     };
   }
-
 }
