@@ -82,6 +82,9 @@ class LoginPage extends StatelessWidget {
         );
       }
     }
+    finally{
+      Get.to(HomeScreen());
+    }
   }
 
   @override
