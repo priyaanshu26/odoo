@@ -40,8 +40,8 @@ class AnsModule {
     this._content = content;
     this._que = que;
     this._author = author;
-    this._upVotes = upVote;
-    this._downVotes = downVote;
+    this._upVotes = upVotes;
+    this._downVotes = downVotes;
     this._createdAt = createdAt;
     this._updatedAt = updatedAt;
   }
