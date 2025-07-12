@@ -6,8 +6,7 @@ export 'package:flutter/material.dart';
 // region : DB
 export 'package:odoo/firebase_options.dart';
 export 'package:odoo/db/firebase_service.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
+export 'package:cloud_firestore/cloud_firestore.dart';
 
 // endregion
 
