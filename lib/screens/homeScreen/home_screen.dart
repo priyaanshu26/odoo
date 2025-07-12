@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../controller/ans_controller.dart';
+import '../../module/ans_module.dart';
 
 void main() async {
   // await FirebaseService.init();
-  runApp(const HomeScreen());
+  runApp(TempRun());
 }
 
 class TempRun extends StatelessWidget {
@@ -10,51 +14,203 @@ class TempRun extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: HomeScreen(),
+    return MaterialApp(home: HomeScreen());
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
+
+  final _ansController = Get.put(AnsController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      drawer: const FilterDrawer(),
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: const Text(
+          'StackIt',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {},
+            child: const Text('Login', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: [
+            // Search Bar
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey[900],
+                      hintText: "Search",
+                      hintStyle: const TextStyle(color: Colors.white70),
+                      prefixIcon: const Icon(Icons.search, color: Colors.white),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                  icon: const Icon(Icons.menu, color: Colors.white),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+              ),
+              child: const Text(
+                "Ask New Question",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // Question Card
+            Obx(
+              () => Expanded(
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    final answers = _ansController.answers;
+
+                    return QuestionCard(answer: answers[index],);
+                  },
+                  itemCount: _ansController.answers.length,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class QuestionCard extends StatelessWidget {
+  final AnsModule answer;
+
+  const QuestionCard({super.key, required this.answer});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.grey[900],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Votes and Title Row
+            Row(
+              children: [
+                Column(
+                  children: [
+                    IconButton(icon: Icon(Icons.keyboard_arrow_up, color: Colors.white),onPressed: () {
+
+                    },),
+                    Text(
+                      (answer.upVotes - answer.downVotes).toString(),
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                    IconButton(icon: Icon(Icons.keyboard_arrow_down, color: Colors.white),onPressed: () {
+
+                    },),
+                  ],
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    answer.que,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8.0,
+              children: const [
+                Chip(
+                  label: Text("Sample", style: TextStyle(color: Colors.white)),
+                  backgroundColor: Colors.blueGrey,
+                ),
+                Chip(
+                  label: Text("Tags", style: TextStyle(color: Colors.white)),
+                  backgroundColor: Colors.blueGrey,
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              answer.content,
+              style: const TextStyle(color: Colors.white70, fontSize: 14),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              answer.author,
+              style: const TextStyle(
+                color: Colors.white54,
+                fontSize: 12,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
 
 
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-
-  final TextEditingController _searchController = TextEditingController();
+class FilterDrawer extends StatelessWidget {
+  const FilterDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('StackIt'),
-        actions: [
-
-          //LogIn button
-          ElevatedButton(onPressed: () {
-
-          },  child: Text('LogIn'))
-        ],
-      ),
-      body: Column(
-        children: [
-          //search Bar and sort
-          Row(
-            children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                ),
-                controller: _searchController,
-              )
-            ],
-          )
+    return Drawer(
+      backgroundColor: Colors.grey[900],
+      child: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
+        children: const [
+          Text(
+            "Filters",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Divider(color: Colors.white24),
+          ListTile(
+            title: Text("Newest", style: TextStyle(color: Colors.white)),
+          ),
+          ListTile(
+            title: Text("Unanswered", style: TextStyle(color: Colors.white)),
+          ),
+          ListTile(
+            title: Text("More", style: TextStyle(color: Colors.white)),
+          ),
         ],
       ),
     );
