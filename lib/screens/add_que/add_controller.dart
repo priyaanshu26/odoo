@@ -1,136 +1,231 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:get/get.dart';
 
 class AskQuestionController extends GetxController {
-  final title = TextEditingController();
-  final tagText = TextEditingController();
-  final tags = <String>[].obs;
+  // Form key for validation
   final formKey = GlobalKey<FormState>();
-  final isSubmitting = false.obs;
 
-  // Rich Text Controller
-  late quill.QuillController quillController;
+  // Text controllers
+  final TextEditingController title = TextEditingController();
+  final TextEditingController description = TextEditingController(); // Changed from QuillController
+  final TextEditingController tagText = TextEditingController();
+
+  // Observable variables
+  var isSubmitting = false.obs;
+  var tags = <String>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    quillController = quill.QuillController.basic();
+    // Add listener to description controller for real-time updates
+    description.addListener(_onDescriptionChanged);
   }
 
   @override
   void onClose() {
     title.dispose();
+    description.dispose();
     tagText.dispose();
-    quillController.dispose();
     super.onClose();
   }
 
+  void _onDescriptionChanged() {
+    // This method is called whenever the description text changes
+    // You can add auto-save functionality here if needed
+  }
+
+  // Title validation
+  String? validateTitle(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Please enter a title for your question';
+    }
+    if (value.trim().length < 10) {
+      return 'Title must be at least 10 characters long';
+    }
+    if (value.trim().length > 150) {
+      return 'Title must be less than 150 characters';
+    }
+    return null;
+  }
+
+  // Description validation
+  String? validateDescription(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Please provide a description for your question';
+    }
+    if (value.trim().length < 20) {
+      return 'Description must be at least 20 characters long';
+    }
+    return null;
+  }
+
+  // Add tag functionality
   void addTag(String tag) {
-    if (tag.isNotEmpty && !tags.contains(tag.trim())) {
-      tags.add(tag.trim());
-      tagText.clear();
+    if (tag.trim().isNotEmpty && !tags.contains(tag.trim().toLowerCase())) {
+      if (tags.length < 5) {
+        tags.add(tag.trim().toLowerCase());
+        tagText.clear();
+      } else {
+        Get.snackbar(
+          'Tag Limit Reached',
+          'You can only add up to 5 tags',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.orange.shade100,
+          colorText: Colors.orange.shade800,
+        );
+      }
     }
   }
 
+  // Remove tag functionality
   void removeTag(String tag) {
     tags.remove(tag);
   }
 
-  String? validateTitle(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return "Title is required";
-    }
-    if (value.trim().length < 10) {
-      return "Title must be at least 10 characters";
-    }
-    return null;
+  // Get description text (for compatibility with old QuillController)
+  String getDescriptionText() {
+    return description.text;
   }
 
-  String? validateDescription() {
-    final plainText = quillController.document.toPlainText().trim();
-    if (plainText.isEmpty) {
-      return "Description is required";
-    }
-    if (plainText.length < 20) {
-      return "Description must be at least 20 characters";
-    }
-    return null;
+  // Get description as HTML (simple markdown to HTML conversion)
+  String getDescriptionAsHtml() {
+    String text = description.text;
+
+    // Simple markdown to HTML conversion
+    text = text.replaceAllMapped(RegExp(r'\*\*(.*?)\*\*'), (match) {
+      return '<strong>${match.group(1)}</strong>';
+    });
+
+    text = text.replaceAllMapped(RegExp(r'\*(.*?)\*'), (match) {
+      return '<em>${match.group(1)}</em>';
+    });
+
+    text = text.replaceAllMapped(RegExp(r'<u>(.*?)</u>'), (match) {
+      return '<u>${match.group(1)}</u>';
+    });
+
+    text = text.replaceAllMapped(RegExp(r'`(.*?)`'), (match) {
+      return '<code>${match.group(1)}</code>';
+    });
+
+    text = text.replaceAllMapped(RegExp(r'^# (.*?)$', multiLine: true), (match) {
+      return '<h1>${match.group(1)}</h1>';
+    });
+
+    text = text.replaceAllMapped(RegExp(r'^## (.*?)$', multiLine: true), (match) {
+      return '<h2>${match.group(1)}</h2>';
+    });
+
+    text = text.replaceAllMapped(RegExp(r'^### (.*?)$', multiLine: true), (match) {
+      return '<h3>${match.group(1)}</h3>';
+    });
+
+    text = text.replaceAllMapped(RegExp(r'\[(.*?)\]\((.*?)\)'), (match) {
+      return '<a href="${match.group(2)}">${match.group(1)}</a>';
+    });
+
+    // Convert newlines to <br> tags
+    text = text.replaceAll('\n', '<br>');
+
+    return text;
   }
 
-  String? validateTags() {
-    if (tags.isEmpty) {
-      return "At least one tag is required";
-    }
-    if (tags.length > 5) {
-      return "Maximum 5 tags allowed";
-    }
-    return null;
-  }
-
+  // Submit question
   Future<void> submitQuestion(String userId) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
 
-    final plainText = quillController.document.toPlainText().trim();
-    final delta = quillController.document.toDelta();
-
-    // Validate description
-    final descriptionError = validateDescription();
-    if (descriptionError != null) {
-      Get.snackbar("Error", descriptionError);
+    // Validate description separately since it's not in the form
+    if (validateDescription(description.text) != null) {
+      Get.snackbar(
+        'Validation Error',
+        validateDescription(description.text)!,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.shade100,
+        colorText: Colors.red.shade800,
+      );
       return;
     }
 
-    // Validate tags
-    final tagError = validateTags();
-    if (tagError != null) {
-      Get.snackbar("Error", tagError);
+    if (tags.isEmpty) {
+      Get.snackbar(
+        'Tags Required',
+        'Please add at least one tag to your question',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.orange.shade100,
+        colorText: Colors.orange.shade800,
+      );
       return;
     }
 
     isSubmitting.value = true;
 
     try {
-      await FirebaseFirestore.instance.collection('questions').add({
+      // Prepare question data
+      Map<String, dynamic> questionData = {
         'title': title.text.trim(),
-        'descriptionDelta': delta.toJson(), // Rich content
-        'descriptionText': plainText,        // Plain text for preview/search
+        'description': getDescriptionText(),
+        'descriptionHtml': getDescriptionAsHtml(),
         'tags': tags.toList(),
-        'author': FirebaseFirestore.instance.doc('users/$userId'),
-        'answers': [],
-        'acceptedAnswer': null,
-        'upVotes': [],
-        'downVotes': [],
-        'createdAt': FieldValue.serverTimestamp(),
-        'updatedAt': FieldValue.serverTimestamp(),
-      });
+        'userId': userId,
+        'createdAt': DateTime.now().toIso8601String(),
+        'updatedAt': DateTime.now().toIso8601String(),
+        'votes': 0,
+        'answers': 0,
+        'views': 0,
+        'status': 'open',
+      };
+
+      // TODO: Replace with your actual API call
+      await Future.delayed(const Duration(seconds: 2)); // Simulate API call
+
+      // Success feedback
+      Get.snackbar(
+        'Success!',
+        'Your question has been posted successfully',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green.shade100,
+        colorText: Colors.green.shade800,
+        duration: const Duration(seconds: 3),
+      );
 
       // Clear form
-      title.clear();
-      quillController.clear();
-      tags.clear();
+      _clearForm();
 
+      // Navigate back
       Get.back();
-      Get.snackbar(
-        "Success",
-        "Your question was posted successfully!",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-      );
+
     } catch (e) {
       Get.snackbar(
-        "Error",
-        "Failed to post question: ${e.toString()}",
+        'Error',
+        'Failed to post question. Please try again.',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: Colors.red.shade100,
+        colorText: Colors.red.shade800,
       );
     } finally {
       isSubmitting.value = false;
     }
+  }
+
+  // Clear form
+  void _clearForm() {
+    title.clear();
+    description.clear();
+    tagText.clear();
+    tags.clear();
+  }
+
+  // Auto-save functionality (optional)
+  void autoSave() {
+    // You can implement auto-save to local storage here
+    print('Auto-saving question...');
+  }
+
+  // Load draft (optional)
+  void loadDraft() {
+    // You can implement loading saved draft here
+    print('Loading draft...');
   }
 }

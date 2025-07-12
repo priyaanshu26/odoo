@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:odoo/screens/add_que/widgets/rich_text_editor.dart';
+import 'package:odoo/screens/add_que/widgets/rich_text_editor.dart'; // Updated import
 import 'package:odoo/screens/add_que/widgets/tag_input.dart';
 import 'add_controller.dart';
 
@@ -18,6 +18,16 @@ class AskQuestionScreen extends StatelessWidget {
         backgroundColor: Colors.blue.shade700,
         foregroundColor: Colors.white,
         elevation: 0,
+        actions: [
+          // Optional: Add preview button
+          IconButton(
+            icon: const Icon(Icons.preview),
+            onPressed: () {
+              _showPreviewDialog(context);
+            },
+            tooltip: 'Preview Question',
+          ),
+        ],
       ),
       body: Form(
         key: controller.formKey,
@@ -52,7 +62,8 @@ class AskQuestionScreen extends StatelessWidget {
                         "• Be specific and clear about your problem\n"
                             "• Include relevant code, error messages, or examples\n"
                             "• Use proper tags to help others find your question\n"
-                            "• Search for existing questions before posting",
+                            "• Search for existing questions before posting\n"
+                            "• Use markdown formatting for better readability",
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.amber.shade800,
@@ -86,11 +97,16 @@ class AskQuestionScreen extends StatelessWidget {
                 ),
                 validator: controller.validateTitle,
                 maxLength: 150,
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: (_) {
+                  // Focus on description field when title is submitted
+                  FocusScope.of(context).nextFocus();
+                },
               ),
 
               const SizedBox(height: 24),
 
-              /// 🧠 Rich Text Editor Section
+              /// 🧠 Simple Rich Text Editor Section
               Text(
                 "Description",
                 style: TextStyle(
@@ -100,14 +116,19 @@ class AskQuestionScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               RichTextEditor(
-                controller: controller.quillController,
+                controller: controller.description,
                 placeholder: 'Describe your question in detail...\n\n'
                     'Include:\n'
-                    '- What you\'ve tried\n'
-                    '- Expected vs actual results\n'
-                    '- Relevant code snippets\n'
-                    '- Error messages',
+                    '• What you\'ve tried\n'
+                    '• Expected vs actual results\n'
+                    '• Relevant code snippets\n'
+                    '• Error messages\n\n'
+                    'Use the toolbar above to format your text!',
                 minHeight: 250,
+                onChanged: (value) {
+                  // Optional: Auto-save on change
+                  // controller.autoSave();
+                },
               ),
 
               const SizedBox(height: 24),
@@ -170,7 +191,7 @@ class AskQuestionScreen extends StatelessWidget {
                 height: 50,
                 child: OutlinedButton(
                   onPressed: () {
-                    Get.back();
+                    _showCancelConfirmation(context);
                   },
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: Colors.grey.shade400),
@@ -193,6 +214,125 @@ class AskQuestionScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _showPreviewDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.height * 0.8,
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Question Preview',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+                const Divider(),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (controller.title.text.isNotEmpty) ...[
+                          Text(
+                            controller.title.text,
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                        if (controller.description.text.isNotEmpty) ...[
+                          Text(
+                            controller.description.text,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                        if (controller.tags.isNotEmpty) ...[
+                          const Text(
+                            'Tags:',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Wrap(
+                            spacing: 8,
+                            children: controller.tags.map((tag) {
+                              return Chip(
+                                label: Text(tag),
+                                backgroundColor: Colors.blue.shade100,
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showCancelConfirmation(BuildContext context) {
+    // Check if there's any content
+    bool hasContent = controller.title.text.isNotEmpty ||
+        controller.description.text.isNotEmpty ||
+        controller.tags.isNotEmpty;
+
+    if (!hasContent) {
+      Get.back();
+      return;
+    }
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Discard Question?'),
+          content: const Text(
+            'You have unsaved changes. Are you sure you want to discard this question?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Keep Editing'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Get.back();
+              },
+              child: const Text('Discard'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
