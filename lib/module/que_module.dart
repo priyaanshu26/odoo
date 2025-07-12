@@ -55,8 +55,8 @@ class QueModule {
     this._author = author;
     this._answers = answers;
     this._acceptedAnswer = acceptedAnswer;
-    this._upVotes = upVote;
-    this._downVotes = downVote;
+    this._upVotes = upVotes;
+    this._downVotes = downVotes;
     this._createdAt = createdAt;
     this._updatedAt = updatedAt;
   }
