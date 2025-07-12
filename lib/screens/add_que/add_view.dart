@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'add_controller.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:flutter_quill_extensions/flutter_quill_extensions.dart'; // Required for embeds
+
 
 class AskQuestionScreen extends StatelessWidget {
   final AskQuestionController controller = Get.find();
@@ -42,11 +43,11 @@ class AskQuestionScreen extends StatelessWidget {
               /// 🧠 Rich Text Editor
               Text("Description", style: TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(height: 8),
-              quill.QuillToolbar.basic(
-                controller: controller.quillController,
-                showAlignmentButtons: true,
-                multiRowsDisplay: false,
-              ),
+              // quill.QuillToolbar.basic(
+              //   controller: controller.quillController,
+              //   showAlignmentButtons: true,
+              //   multiRowsDisplay: false,
+              // ),
               Container(
                 height: 200,
                 decoration: BoxDecoration(
@@ -54,18 +55,27 @@ class AskQuestionScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 padding: EdgeInsets.all(8),
-                child: quill.QuillEditor(
-                  controller: controller.quillController,
-                  readOnly: false,
-                  autoFocus: false,
-                  expands: false,
-                  focusNode: FocusNode(),
-                  scrollController: ScrollController(),
-                  scrollable: true,
-                  padding: EdgeInsets.zero,
-                  placeholder: "Start writing your question...",
-                  embedBuilders: quill.FlutterQuillEmbeds.builders(),
-                ),
+                // child: quill.QuillEditor(
+                //   controller: controller.quillController,
+                //   readOnly: false,
+                //   autoFocus: false,
+                //   expands: false,
+                //   focusNode: FocusNode(),
+                //   scrollController: ScrollController(),
+                //   scrollable: true,
+                //   padding: const EdgeInsets.all(8),
+                //   placeholder: 'Start writing your question...',
+                //   autoFocusAfterBuild: false,
+                //   embedBuilders: FlutterQuillEmbeds.builders(), // import this package
+                //   customStyles: DefaultStyles(
+                //     paragraph: DefaultTextBlockStyle(
+                //       TextStyle(fontSize: 16),
+                //       const Tuple2(8, 0),
+                //       const Tuple2(0, 0),
+                //       null,
+                //     ),
+                //   ),
+                // ),
               ),
 
               SizedBox(height: 20),
