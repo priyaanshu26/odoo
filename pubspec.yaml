@@ -39,7 +39,7 @@ dependencies:
   firebase_storage:
   image_picker:
   tuple:
-  cupertino_icons: ^1.0.8
+  cupertino_icons:
   flutter_quill:
   flutter_quill_extensions:
 
