@@ -1,20 +1,20 @@
+import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:odoo/screens/add_que/add_view.dart';
-import 'package:odoo/utils/import_export.dart';
+import 'test/test_rich_text.dart'; // ✅ Make sure this path is correct
 
-void main() async {
-  await FirebaseService.init();
+void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'StackIt',
-      home: AskQuestionScreen(),
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: AskQuestionScreen(), // ✅ This is now defined
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../add_controller.dart';
 
-
 class TagInputField extends StatelessWidget {
   final AskQuestionController controller;
 
