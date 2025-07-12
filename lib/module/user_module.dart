@@ -1,7 +1,7 @@
 import 'package:odoo/utils/import_export.dart';
 
 class UserModule {
-  int? _id;
+  String? _id;
   get id => _id;
   set id(value) => _id = value;
   String? _username;
@@ -22,19 +22,19 @@ class UserModule {
   List? _notifications;
   get notifications => _notifications;
   set notifications(value) => _notifications = value;
-  DateTime? _createdAt;
+  var _createdAt;
   get createdAt => _createdAt;
   set createdAt(value) => _createdAt = value;
 
   UserModule({
-    int? id,
+    String? id,
     String? username,
     String? email,
     String? password,
     String? role,
     bool? banned,
     List? notifications,
-    DateTime? createdAt,
+    var createdAt,
   }) {
     this._id = id;
     this._username = username;
