@@ -17,6 +17,8 @@ const String KEY_NOTIFICATIONS = "notifications";
 
 const String KEY_TITLE = "title";
 const String KEY_DESCRIPTION = "description";
+const String KEY_DESCRIPTION_DELTA = 'descriptionDelta';
+const String KEY_DESCRIPTION_TEXT = 'descriptionText';
 const String KEY_TAGS = "tags";
 const String KEY_ANSWERS = "answers";
 const String KEY_ACCEPTED_ANSWER = "acceptedAnswer";

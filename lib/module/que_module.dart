@@ -1,17 +1,4 @@
-// Constants for JSON keys
-const String KEY_ID = 'id';
-const String KEY_TITLE = 'title';
-const String KEY_DESCRIPTION = 'description';
-const String KEY_DESCRIPTION_DELTA = 'descriptionDelta';
-const String KEY_DESCRIPTION_TEXT = 'descriptionText';
-const String KEY_TAGS = 'tags';
-const String KEY_AUTHOR = 'author';
-const String KEY_ANSWERS = 'answers';
-const String KEY_ACCEPTED_ANSWER = 'acceptedAnswer';
-const String KEY_UP_VOTES = 'upVotes';
-const String KEY_DOWN_VOTES = 'downVotes';
-const String KEY_CREATED_AT = 'createdAt';
-const String KEY_UPDATED_AT = 'updatedAt';
+import 'package:odoo/utils/import_export.dart';
 
 class QueModule {
   int? _id;
