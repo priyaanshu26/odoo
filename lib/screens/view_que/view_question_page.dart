@@ -22,7 +22,9 @@ import 'package:flutter_quill/flutter_quill.dart' as quill;
 // }
 
 class ViewQuestionPage extends StatelessWidget {
-  const ViewQuestionPage({super.key});
+  ViewQuestionPage({super.key});
+
+  late quill.QuillController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +66,7 @@ class ViewQuestionPage extends StatelessWidget {
             height: 20,
           ),
           quill.QuillToolbar.basic(
-            controller: controller.quillController,
+            controller: controller,
             showAlignmentButtons: true,
             multiRowsDisplay: false,
           ),
@@ -76,7 +78,7 @@ class ViewQuestionPage extends StatelessWidget {
             ),
             padding: EdgeInsets.all(8),
             child: quill.QuillEditor(
-              controller: controller.quillController,
+              controller: controller,
               readOnly: false,
               autoFocus: false,
               expands: false,
