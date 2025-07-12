@@ -1,9 +1,10 @@
 import 'package:odoo/utils/import_export.dart';
 
 class UserService{
-    var users;
+    var _usersRef = FirebaseFirestore.instance.collection('users');
 
-    UserService() {
-      users = await FirebaseFirestore.instance.collection('users');
+    void createUser(UserModule user){
+        _usersRef.add(user.toJson());
     }
+
 }
