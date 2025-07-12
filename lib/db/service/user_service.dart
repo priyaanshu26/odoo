@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:odoo/utils/import_export.dart';
 
 class UserService {
@@ -16,7 +14,6 @@ class UserService {
         try {
             DocumentSnapshot doc = await _usersRef.doc(userId).get();
             if (doc.exists) {
-
                 Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
                 data['id'] = userId; // Set ID manually since it's not in the document fields
                 return UserModule.fromJson(data);
