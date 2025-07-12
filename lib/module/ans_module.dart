@@ -14,11 +14,11 @@ class AnsModule {
   get author => _author;
   set author(value) => _author = value;
   List? _upVotes;
-  get upVote => _upVotes;
-  set upVote(value) => _upVotes = value;
+  get upVotes => _upVotes;
+  set upVotes(value) => _upVotes = value;
   List? _downVotes;
-  get downVote => _downVotes;
-  set downVote(value) => _downVotes = value;
+  get downVotes => _downVotes;
+  set downVotes(value) => _downVotes = value;
   DateTime? _createdAt;
   get createdAt => _createdAt;
   set createdAt(value) => _createdAt = value;
@@ -40,8 +40,8 @@ class AnsModule {
     this._content = content;
     this._que = que;
     this._author = author;
-    this._upVotes = upVote;
-    this._downVotes = downVote;
+    this._upVotes = upVotes;
+    this._downVotes = downVotes;
     this._createdAt = createdAt;
     this._updatedAt = updatedAt;
   }
@@ -72,3 +72,4 @@ class AnsModule {
     };
   }
 }
+
