@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'StackIt',
       home: Scaffold(
         appBar: AppBar(title: Text("StackIt - Seeding DB")),
-        body: Center(child: Text("Seeding Firestore...")),
+        body: Center(child: Text("Seeding Firestore.....")),
       ),
     );
   }
