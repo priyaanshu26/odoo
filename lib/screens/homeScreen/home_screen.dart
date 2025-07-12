@@ -96,7 +96,7 @@ class HomeScreen extends StatelessWidget {
 
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AskQuestionScreen()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => AskQuestionScreen()));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blueAccent,
@@ -139,7 +139,7 @@ class QuestionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ViewQuestionPage()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewQuestionPage()));
       },
       child: Card(
         color: Colors.grey[900],
