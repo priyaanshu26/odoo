@@ -4,6 +4,6 @@ class UserService{
     var users;
 
     UserService() {
-      users = await FirebaseFirestore.instance.collection('users');
+      users = FirebaseFirestore.instance.collection('users');
     }
 }
