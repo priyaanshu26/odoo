@@ -1,64 +1,91 @@
-import 'package:odoo/utils/import_export.dart';
+// Constants for JSON keys
+const String KEY_ID = 'id';
+const String KEY_TITLE = 'title';
+const String KEY_DESCRIPTION = 'description';
+const String KEY_DESCRIPTION_DELTA = 'descriptionDelta';
+const String KEY_DESCRIPTION_TEXT = 'descriptionText';
+const String KEY_TAGS = 'tags';
+const String KEY_AUTHOR = 'author';
+const String KEY_ANSWERS = 'answers';
+const String KEY_ACCEPTED_ANSWER = 'acceptedAnswer';
+const String KEY_UP_VOTES = 'upVotes';
+const String KEY_DOWN_VOTES = 'downVotes';
+const String KEY_CREATED_AT = 'createdAt';
+const String KEY_UPDATED_AT = 'updatedAt';
 
 class QueModule {
   int? _id;
-  get id => _id;
-  set id(value) => _id = value;
   String? _title;
-  get title => _title;
-  set title(value) => _title = value;
   String? _description;
-  get description => _description;
-  set description(value) => _description = value;
-  List? _tags;
-  get tags => _tags;
-  set tags(value) => _tags = value;
+  Map<String, dynamic>? _descriptionDelta;
+  String? _descriptionText;
+  List<String>? _tags;
   String? _author;
-  get author => _author;
-  set author(value) => _author = value;
-  List? _answers;
-  get answers => _answers;
-  set answers(value) => _answers = value;
+  List<String>? _answers;
   String? _acceptedAnswer;
-  get acceptedAnswer => _acceptedAnswer;
-  set acceptedAnswer(value) => _acceptedAnswer = value;
-  List? _upVotes;
-  get upVotes => _upVotes;
-  set upVotes(value) => _upVotes = value;
-  List? _downVotes;
-  get downVotes => _downVotes;
-  set downVotes(value) => _downVotes = value;
+  List<String>? _upVotes;
+  List<String>? _downVotes;
   DateTime? _createdAt;
-  get createdAt => _createdAt;
-  set createdAt(value) => _createdAt = value;
   DateTime? _updatedAt;
-  get updatedAt => _updatedAt;
-  set updatedAt(value) => _updatedAt = value;
+
+  // Getters
+  int? get id => _id;
+  String? get title => _title;
+  String? get description => _description;
+  Map<String, dynamic>? get descriptionDelta => _descriptionDelta;
+  String? get descriptionText => _descriptionText;
+  List<String>? get tags => _tags;
+  String? get author => _author;
+  List<String>? get answers => _answers;
+  String? get acceptedAnswer => _acceptedAnswer;
+  List<String>? get upVotes => _upVotes;
+  List<String>? get downVotes => _downVotes;
+  DateTime? get createdAt => _createdAt;
+  DateTime? get updatedAt => _updatedAt;
+
+  // Setters
+  set id(int? value) => _id = value;
+  set title(String? value) => _title = value;
+  set description(String? value) => _description = value;
+  set descriptionDelta(Map<String, dynamic>? value) => _descriptionDelta = value;
+  set descriptionText(String? value) => _descriptionText = value;
+  set tags(List<String>? value) => _tags = value;
+  set author(String? value) => _author = value;
+  set answers(List<String>? value) => _answers = value;
+  set acceptedAnswer(String? value) => _acceptedAnswer = value;
+  set upVotes(List<String>? value) => _upVotes = value;
+  set downVotes(List<String>? value) => _downVotes = value;
+  set createdAt(DateTime? value) => _createdAt = value;
+  set updatedAt(DateTime? value) => _updatedAt = value;
 
   QueModule({
     int? id,
     String? title,
     String? description,
-    List? tags,
+    Map<String, dynamic>? descriptionDelta,
+    String? descriptionText,
+    List<String>? tags,
     String? author,
-    List? answers,
+    List<String>? answers,
     String? acceptedAnswer,
-    List? upVotes,
-    List? downVotes,
+    List<String>? upVotes,
+    List<String>? downVotes,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
-    this._id = id;
-    this._title = title;
-    this._description = description;
-    this._tags = tags;
-    this._author = author;
-    this._answers = answers;
-    this._acceptedAnswer = acceptedAnswer;
-    this._upVotes = upVotes;
-    this._downVotes = downVotes;
-    this._createdAt = createdAt;
-    this._updatedAt = updatedAt;
+    _id = id;
+    _title = title;
+    _description = description;
+    _descriptionDelta = descriptionDelta;
+    _descriptionText = descriptionText;
+    _tags = tags;
+    _author = author;
+    _answers = answers;
+    _acceptedAnswer = acceptedAnswer;
+    _upVotes = upVotes;
+    _downVotes = downVotes;
+    _createdAt = createdAt;
+    _updatedAt = updatedAt;
   }
 
   static QueModule fromJson(Map<String, dynamic> json) {
@@ -66,14 +93,16 @@ class QueModule {
       id: json[KEY_ID],
       title: json[KEY_TITLE],
       description: json[KEY_DESCRIPTION],
-      tags: json[KEY_TAGS],
+      descriptionDelta: json[KEY_DESCRIPTION_DELTA],
+      descriptionText: json[KEY_DESCRIPTION_TEXT],
+      tags: json[KEY_TAGS] != null ? List<String>.from(json[KEY_TAGS]) : null,
       author: json[KEY_AUTHOR],
-      answers: json[KEY_ANSWERS],
+      answers: json[KEY_ANSWERS] != null ? List<String>.from(json[KEY_ANSWERS]) : null,
       acceptedAnswer: json[KEY_ACCEPTED_ANSWER],
-      upVotes: json[KEY_UP_VOTES],
-      downVotes: json[KEY_DOWN_VOTES],
-      createdAt: json[KEY_CREATED_AT],
-      updatedAt: json[KEY_UPDATED_AT],
+      upVotes: json[KEY_UP_VOTES] != null ? List<String>.from(json[KEY_UP_VOTES]) : null,
+      downVotes: json[KEY_DOWN_VOTES] != null ? List<String>.from(json[KEY_DOWN_VOTES]) : null,
+      createdAt: json[KEY_CREATED_AT] != null ? DateTime.parse(json[KEY_CREATED_AT]) : null,
+      updatedAt: json[KEY_UPDATED_AT] != null ? DateTime.parse(json[KEY_UPDATED_AT]) : null,
     );
   }
 
@@ -82,14 +111,30 @@ class QueModule {
       KEY_ID: _id,
       KEY_TITLE: _title,
       KEY_DESCRIPTION: _description,
+      KEY_DESCRIPTION_DELTA: _descriptionDelta,
+      KEY_DESCRIPTION_TEXT: _descriptionText,
       KEY_TAGS: _tags,
       KEY_AUTHOR: _author,
       KEY_ANSWERS: _answers,
       KEY_ACCEPTED_ANSWER: _acceptedAnswer,
       KEY_UP_VOTES: _upVotes,
       KEY_DOWN_VOTES: _downVotes,
-      KEY_CREATED_AT: _createdAt,
-      KEY_UPDATED_AT: _updatedAt,
+      KEY_CREATED_AT: _createdAt?.toIso8601String(),
+      KEY_UPDATED_AT: _updatedAt?.toIso8601String(),
     };
+  }
+
+  // Helper methods
+  int get voteCount => (upVotes?.length ?? 0) - (downVotes?.length ?? 0);
+  int get answerCount => answers?.length ?? 0;
+  bool get hasAcceptedAnswer => acceptedAnswer != null;
+
+  // Check if user has voted
+  bool hasUserUpvoted(String userId) => upVotes?.contains(userId) ?? false;
+  bool hasUserDownvoted(String userId) => downVotes?.contains(userId) ?? false;
+
+  @override
+  String toString() {
+    return 'QueModule(id: $id, title: $title, tags: $tags, voteCount: $voteCount, answerCount: $answerCount)';
   }
 }
