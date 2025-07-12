@@ -26,16 +26,16 @@ class UserModule {
   get createdAt => _createdAt;
   set createdAt(value) => _createdAt = value;
 
-  UserModule(
-    int id,
-    String username,
-    String email,
-    String password,
-    String role,
-    bool banned,
-    List notifications,
-    DateTime createdAt,
-  ) {
+  UserModule({
+    int? id,
+    String? username,
+    String? email,
+    String? password,
+    String? role,
+    bool? banned,
+    List? notifications,
+    DateTime? createdAt,
+  }) {
     this._id = id;
     this._username = username;
     this._email = email;
@@ -48,14 +48,14 @@ class UserModule {
 
   static UserModule fromJson(Map<String, dynamic> json) {
     return UserModule(
-      json[KEY_ID],
-      json[KEY_USERNAME],
-      json[KEY_EMAIL],
-      json[KEY_PASSWORD],
-      json[KEY_ROLE],
-      json[KEY_BANNED],
-      json[KEY_NOTIFICATIONS],
-      json[KEY_CREATED_AT],
+      id: json[KEY_ID],
+      username: json[KEY_USERNAME],
+      email: json[KEY_EMAIL],
+      password: json[KEY_PASSWORD],
+      role: json[KEY_ROLE],
+      banned: json[KEY_BANNED],
+      notifications: json[KEY_NOTIFICATIONS],
+      createdAt: json[KEY_CREATED_AT],
     );
   }
 
