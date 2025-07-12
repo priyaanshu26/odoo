@@ -23,6 +23,8 @@ class HomeScreen extends StatelessWidget {
 
   final _ansController = Get.put(AnsController());
 
+  final TextEditingController _searchController  =TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,6 +52,8 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextField(
+                    controller: _searchController,
+                    onChanged: (value) => _ansController.filterAnswers(_searchController.text),
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       filled: true,
@@ -63,12 +67,30 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                IconButton(
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                  icon: const Icon(Icons.menu, color: Colors.white),
-                ),
+                const SizedBox(width: 8),
+
+                // NEW: Filter Dropdown
+                Obx(() => DropdownButton<String>(
+                  dropdownColor: Colors.grey[900],
+                  value: _ansController.selectedFilter.value,
+                  icon: const Icon(Icons.filter_list, color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
+                  underline: Container(height: 0),
+                  onChanged: (value) {
+                    if (value != null) {
+                      _ansController.setFilter(value);
+                    }
+                  },
+                  items: _ansController.filters
+                      .map((filter) => DropdownMenuItem(
+                    value: filter,
+                    child: Text(filter),
+                  ))
+                      .toList(),
+                )),
               ],
             ),
+
             const SizedBox(height: 12),
 
             ElevatedButton(
@@ -88,11 +110,11 @@ class HomeScreen extends StatelessWidget {
               () => Expanded(
                 child: ListView.builder(
                   itemBuilder: (context, index) {
-                    final answers = _ansController.answers;
+                    final answers = _ansController.filteredAnswers;
 
                     return QuestionCard(answer: answers[index],);
                   },
-                  itemCount: _ansController.answers.length,
+                  itemCount: _ansController.filteredAnswers.length,
                 ),
               ),
             ),
@@ -102,6 +124,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+//comment
 
 class QuestionCard extends StatelessWidget {
   final AnsModule answer;
@@ -127,8 +151,8 @@ class QuestionCard extends StatelessWidget {
 
                     },),
                     Text(
-                      (answer.upVote - answer.downVote).toString(),
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      (answer.upVotes - answer.downVotes).toString()  ,
+                      style: const TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     IconButton(icon: Icon(Icons.keyboard_arrow_down, color: Colors.white),onPressed: () {
 
