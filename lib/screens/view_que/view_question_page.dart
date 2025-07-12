@@ -89,7 +89,11 @@ class ViewQuestionPage extends StatelessWidget {
           ),
           FloatingActionButton(
             onPressed: () {},
-            child: Text('Submit',style: TextStyle(backgroundColor: Colors.green,color: Colors.white70),),
+            child: Text(
+              'Submit',
+              style: TextStyle(
+                  backgroundColor: Colors.green, color: Colors.white70),
+            ),
           )
         ],
       ),
