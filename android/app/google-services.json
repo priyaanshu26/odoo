@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "601976208255",
+    "project_id": "stackit-3b882",
+    "storage_bucket": "stackit-3b882.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:601976208255:android:93b15dd3be6754fc72b84a",
+        "android_client_info": {
+          "package_name": "com.hack.odoo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIu1eDO6Pz39vn4DYXYXw7X7HHm1vgHVI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
