@@ -134,10 +134,7 @@ class LoginPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          "assets/google_logo_backless.png",
-                          height: 35,
-                        ),
+                        Icon(Icons.g_mobiledata, color: Colors.black87),
                         const SizedBox(width: 12),
                         const Text(
                           "Sign in with Google",
