@@ -10,6 +10,8 @@ export 'package:cloud_firestore/cloud_firestore.dart';
 
 // region : MODULES
 export 'package:odoo/module/user_module.dart';
+export 'package:odoo/module/que_module.dart';
+export 'package:odoo/module/ans_module.dart';
 // endregion
 
 // region : DB
